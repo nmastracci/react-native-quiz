@@ -1,19 +1,25 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { PEOPLE } from '../constants/People';
 
 export default class LinksScreen extends React.Component {
   static navigationOptions = {
-    title: 'Links',
+    title: 'Links'
   };
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-        {/* Go ahead and delete ExpoLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */}
-        <ExpoLinksView />
-      </ScrollView>
+      <View style={styles.container}>
+        <Image
+          source={require('../assets/images/bradley.png')}
+          style={styles.profileImage}
+        />
+        <Text style={styles.profileTextTitle}>{PEOPLE.name}</Text>
+        <Text style={styles.profileText}>High Score: {PEOPLE.highScore}</Text>
+        <Text style={styles.profileText}>
+          Playing Since: {PEOPLE.createdOn}
+        </Text>
+      </View>
     );
   }
 }
@@ -21,7 +27,22 @@ export default class LinksScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
     paddingTop: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
+  profileImage: {
+    borderRadius: 75
+  },
+  profileTextTitle: {
+    fontSize: 50,
+    fontWeight: '900',
+    marginTop: 20
+  },
+  profileText: {
+    fontSize: 25,
+    fontWeight: '300',
+    marginTop: 20,
+    color: '#555555'
+  }
 });
