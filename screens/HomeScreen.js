@@ -1,5 +1,5 @@
 import { WebBrowser } from 'expo';
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Button,
   Image,
@@ -7,11 +7,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as ActionCreators from '../actions/actions';
+import Colors from '../constants/Colors';
 
-export default class HomeScreen extends React.Component {
+export class HomeScreen extends Component {
   static navigationOptions = {
     header: null
   };
@@ -23,37 +26,58 @@ export default class HomeScreen extends React.Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={require('../assets/images/vehikl_logo-vert.png')}
-              style={styles.welcomeImage}
-            />
-          </View>
+          <Image
+            // source={require('../assets/images/vehikl_logo-vert.png')}
+            source={require('../assets/images/vehikl_london.png')}
+            // source={require('../assets/images/vehikl_london.svg')}
+            style={styles.welcomeImage}
+          />
+          <View style={styles.welcomeContainer} />
 
           <View style={styles.getStartedContainer}>
             <Text style={styles.getStartedText}>Let's Test Your Knowledge</Text>
           </View>
 
-          <View style={styles.helpContainer}>
-            <TouchableOpacity
-              onPress={this._handleHelpPress}
-              style={styles.helpLink}
-            >
-              <Text style={styles.helpLinkText}>Take The Quiz....</Text>
-            </TouchableOpacity>
-          </View>
-
           <View>
-            <Text style={styles.quizText}>First Question</Text>
-            <Button style={styles.quizButton} title="1. this options" />
-            <Button style={styles.quizButton} title="2. this options" />
-            <Button style={styles.quizButton} title="3. this options" />
-            <Button style={styles.quizButton} title="4. this options" />
+            <Text style={styles.quizText}>Question 1</Text>
+            <Text style={styles.quizTextQuestion}>Where is Vehikl HQ</Text>
+            <Button
+              name={1.1}
+              style={styles.quizButton}
+              onPress={this.chooseAnswer}
+              color={Colors.vehiklOrange}
+              title="1. Guelph"
+            />
+            <Button
+              name={1.2}
+              style={styles.quizButton}
+              onPress={this.chooseAnswer}
+              color={Colors.vehiklOrange}
+              title="2. Kitchener"
+            />
+            <Button
+              name={1.3}
+              style={styles.quizButton}
+              onPress={this.chooseAnswer}
+              color={Colors.vehiklOrange}
+              title="3. Waterloo"
+            />
+            <Button
+              id={1.4}
+              style={styles.quizButton}
+              onPress={this.chooseAnswer}
+              color={Colors.vehiklOrange}
+              title="4. Shrek's Swamp"
+            />
           </View>
         </ScrollView>
       </View>
     );
   }
+
+  chooseAnswer = id => {
+    console.log('NAME', id);
+  };
 
   // _maybeRenderDevelopmentModeWarning() {
   //   if (__DEV__) {
@@ -94,13 +118,15 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    alignContent: 'center'
   },
   quizButton: {
     padding: 16,
     backgroundColor: '#555555',
-    color: '#ffffff',
-    fontWeight: '400'
+    color: '#555',
+    fontWeight: '400',
+    justifyContent: 'flex-start'
   },
   quizText: {
     fontSize: 28,
@@ -109,15 +135,19 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#C0C0C0'
   },
+  quizTextQuestion: {
+    fontSize: 22,
+    marginVertical: 6,
+    marginHorizontal: 80,
+    fontWeight: '700',
+    color: '#555555'
+  },
   developmentModeText: {
     marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
+    color: '#555555',
     fontSize: 14,
     lineHeight: 19,
     textAlign: 'center'
-  },
-  contentContainer: {
-    paddingTop: 30
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -125,15 +155,9 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   welcomeImage: {
-    width: 300,
-    // height: 80,
+    width: '100%',
     resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50
+    top: 0
   },
   homeScreenFilename: {
     marginVertical: 7
@@ -192,3 +216,18 @@ const styles = StyleSheet.create({
     color: '#2e78b7'
   }
 });
+
+function mapStateToProps(state) {
+  return { characters: state.characters };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    Actions: bindActionCreators(ActionCreators, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen);
